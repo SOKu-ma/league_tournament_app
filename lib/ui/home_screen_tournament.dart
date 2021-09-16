@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:league_tournament_app/ui/tournament_table.dart';
 
 class HomeScreenTournament extends ConsumerWidget {
   final leagueList = ['セ・リーグ', 'パ・リーグ', 'MLB'];
@@ -29,18 +27,6 @@ class HomeScreenTournament extends ConsumerWidget {
           },
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => TornamentTable(),
-      //         fullscreenDialog: true,
-      //       ),
-      //     );
-      //   },
-      //   child: Icon(Icons.add),
-      // ),
     );
   }
 }
