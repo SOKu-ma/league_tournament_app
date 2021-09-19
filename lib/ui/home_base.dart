@@ -43,7 +43,9 @@ class HomeBase extends ConsumerWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MatchSettings(), fullscreenDialog: true),
+              builder: (context) => MatchSettings(),
+              // fullscreenDialog: true,
+            ),
           );
         },
       ),
