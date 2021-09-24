@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:league_tournament_app/const/functions.dart';
 
-class TornamentTable extends ConsumerWidget {
+class TournamentTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return Scaffold(
@@ -11,51 +12,94 @@ class TornamentTable extends ConsumerWidget {
       ),
       body: SafeArea(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Flexible(
-                  child: Container(
-                    decoration: BoxDecoration(border: Border.all()),
-                    width: 50,
-                    height: 50,
-                    child: Center(
-                      child: Text('AAA'),
+                Container(
+                  margin: EdgeInsets.only(left: 10, top: 20),
+                  child: SizedBox(
+                    height: 60,
+                    width: 120,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Card(
+                        child: Center(
+                          child: Text(
+                            '中日ドラゴンズ',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                Flexible(
-                  child: Container(
-                    // padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(border: Border.all()),
-                    width: 50,
-                    height: 50,
-                    child: Center(
-                      child: Text('AAA'),
+                Container(
+                  margin: EdgeInsets.only(left: 10, top: 20),
+                  child: SizedBox(
+                    height: 60,
+                    width: 120,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Card(
+                        child: Center(
+                          child: Text(
+                            '東北楽天ゴールデンイーグルス',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
+                // Container(
+                //   margin: EdgeInsets.only(left: 10, top: 20),
+                //   child: SizedBox(
+                //     height: 60,
+                //     width: 120,
+                //     child: InkWell(
+                //       onTap: () {},
+                //       child: Card(
+                //         child: Center(
+                //           child: Text(
+                //             'ソフトバンクホークス',
+                //             style: TextStyle(fontSize: 15),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // Container(
+                //   margin: EdgeInsets.only(left: 10, top: 20),
+                //   child: SizedBox(
+                //     height: 60,
+                //     width: 120,
+                //     child: InkWell(
+                //       onTap: () {},
+                //       child: Card(
+                //         child: Center(
+                //           child: Text(
+                //             '西武ライオンズ',
+                //             style: TextStyle(fontSize: 15),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
-            Flexible(
-              child: ListView.builder(
-                itemCount: 3,
-                padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    child: ListTile(
-                        title: Text(
-                          'AAA',
-                        ),
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.grey)),
-                        onTap: () {}),
-                  );
-                },
-              ),
-            ),
+            Column(
+              children: [
+                // Container(
+                //   child: Text('aaa'),
+                // ),
+                CustomPaint(painter: HorizonalLine(0)),
+                CustomPaint(painter: VerticalLine(0)),
+                // CustomPaint(painter: HorizonalLine(0)),
+                // CustomPaint(painter: HorizonalLine(0)),
+              ],
+            )
           ],
         ),
       ),
