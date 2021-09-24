@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:league_tournament_app/ui/tournament_table.dart';
 import 'league_table.dart';
 
 // リーグ戦 or トーナメント戦選択用
@@ -8,12 +9,12 @@ final selectionsToggleLeagueProvider = StateProvider((ref) => true);
 final selectionsToggleTournamentProvider = StateProvider((ref) => false);
 // リーグ戦ルール選択プルダウン用
 final selectLeagurRuleProvider = StateProvider((ref) => '総当たり1回');
-//
-final selectedIndexProvider = StateProvider((ref) => 0);
 // トーナメント戦シード選択用
 final switchSeedProvider = StateProvider((ref) => false);
 // リーグ戦名テキストフィールド用
 final textFieldLeagueProvider = StateProvider((ref) => '');
+// 全チーム数テキストフィールド用
+final textFieldLeagueAllTeamProvider = StateProvider((ref) => '2');
 // トーナメント戦名テキストフィールド用
 final textFieldTournamentProvider = StateProvider((ref) => '');
 // リーグ戦決勝トーナメント選択用
@@ -79,13 +80,20 @@ class MatchSettings extends ConsumerWidget {
 
 // League選択時のカラム
 _leagueColumn(BuildContext context, ScopedReader watch) {
-  final currentedIndex = watch(selectedIndexProvider);
   final dropDownValue = watch(selectLeagurRuleProvider);
   final textFieldLeague = watch(textFieldLeagueProvider);
+  final textFieldLeagueAllTeam = watch(textFieldLeagueAllTeamProvider);
+
   final switchFinalRound = watch(switchFinalRoundProvider);
 
+  // リーグ名用テキストフィールドコントローラ
   var _leagueTextFieldController =
       TextEditingController(text: textFieldLeague.state);
+
+  // 全チーム数用テキストフィールドコントローラ
+  var _leagueAllTeamTextFieldController =
+      TextEditingController(text: textFieldLeagueAllTeam.state);
+
   return Column(
     children: [
       Container(
@@ -102,7 +110,10 @@ _leagueColumn(BuildContext context, ScopedReader watch) {
           children: [
             Expanded(child: Text('全チーム数：')),
             Expanded(
-              child: TextField(decoration: InputDecoration(hintText: '例：6')),
+              child: TextField(
+                decoration: InputDecoration(hintText: '例：6'),
+                controller: _leagueAllTeamTextFieldController,
+              ),
             ),
           ],
         ),
@@ -134,11 +145,6 @@ _leagueColumn(BuildContext context, ScopedReader watch) {
         child: Row(
           children: [
             Expanded(child: Text('ルール：')),
-            // Expanded(
-            //   child: Tooltip(
-            //     message: 'AAA',
-            //     child: Icon(Icons.question_answer_rounded),
-            //   ),
             DropdownButton(
               value: dropDownValue.state,
               items: <String>['総当たり1回', '総当たり2回', '総当たり3回以上', '勝ち抜け']
@@ -154,18 +160,47 @@ _leagueColumn(BuildContext context, ScopedReader watch) {
           ],
         ),
       ),
+      // Container(
+      //   margin: EdgeInsets.only(left: 10, right: 10),
+      //   child: Row(
+      //     children: [
+      //       Expanded(child: Text('決勝トーナメント：')),
+      //       Expanded(
+      //         child: Switch(
+      //           value: switchFinalRound.state,
+      //           onChanged: (value) {
+      //             switchFinalRound.state = value;
+      //           },
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       Container(
         margin: EdgeInsets.only(left: 10, right: 10),
         child: Row(
           children: [
-            Expanded(child: Text('決勝トーナメント：')),
+            Expanded(child: Text('ルール：')),
             Expanded(
-              child: Switch(
-                value: switchFinalRound.state,
-                onChanged: (value) {
-                  switchFinalRound.state = value;
-                },
-              ),
+              child: IconButton(
+                  onPressed: () {}, icon: Icon(Icons.settings_sharp)),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          children: [
+            Expanded(child: Text('勝利：')),
+            Expanded(
+              child: IconButton(onPressed: () {}, icon: Icon(Icons.remove)),
+            ),
+            Expanded(
+              child: TextField(decoration: InputDecoration(hintText: '例：6')),
+            ),
+            Expanded(
+              child: IconButton(onPressed: () {}, icon: Icon(Icons.add)),
             ),
           ],
         ),
@@ -174,14 +209,17 @@ _leagueColumn(BuildContext context, ScopedReader watch) {
         padding: EdgeInsets.only(top: 50, bottom: 5),
         margin: EdgeInsets.only(bottom: 5),
         child: ElevatedButton(
-          child: Text('OK ${currentedIndex.state}'),
+          child: Text('OK'),
           onPressed: () {
-            currentedIndex.state++;
             textFieldLeague.state = _leagueTextFieldController.text;
+            textFieldLeagueAllTeam.state =
+                _leagueAllTeamTextFieldController.text;
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => LeagueTable(), fullscreenDialog: true),
+                builder: (context) => LeagueTable(),
+                fullscreenDialog: true,
+              ),
             );
           },
         ),
@@ -192,12 +230,13 @@ _leagueColumn(BuildContext context, ScopedReader watch) {
 
 // Tournament選択時のカラム
 _tournamentColumn(BuildContext context, ScopedReader watch) {
-  final currentedIndex = watch(selectedIndexProvider);
   final dropDownValue = watch(selectLeagurRuleProvider);
   final switchValue = watch(switchSeedProvider);
   final textFieldTournament = watch(textFieldTournamentProvider);
 
   var _tournamentTextFieldController = TextEditingController();
+
+  final leagueFlg = watch(selectionsToggleLeagueProvider);
 
   return Column(
     children: [
@@ -255,7 +294,7 @@ _tournamentColumn(BuildContext context, ScopedReader watch) {
             Expanded(child: Text('ルール：')),
             DropdownButton(
               value: dropDownValue.state,
-              items: <String>['One', 'Two', 'Three', 'あかさたなはまやらわ']
+              items: <String>['総当たり1回', '総当たり2回', '総当たり3回以上', '勝ち抜け']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                     value: value, child: Text(value));
@@ -272,15 +311,24 @@ _tournamentColumn(BuildContext context, ScopedReader watch) {
         padding: EdgeInsets.only(top: 50, bottom: 5),
         margin: EdgeInsets.only(bottom: 5),
         child: ElevatedButton(
-          child: Text('OK ${currentedIndex.state}'),
+          child: Text('OK'),
           onPressed: () {
-            currentedIndex.state++;
             textFieldTournament.state = _tournamentTextFieldController.text;
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => LeagueTable(), fullscreenDialog: true),
-            );
+            if (leagueFlg.state) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LeagueTable(),
+                    fullscreenDialog: true),
+              );
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TournamentTable(),
+                    fullscreenDialog: true),
+              );
+            }
           },
         ),
       ),

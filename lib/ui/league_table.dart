@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:league_tournament_app/const/functions.dart';
 
 import 'match_settings.dart';
 
@@ -42,40 +45,163 @@ class _LeagueTable extends ConsumerWidget {
                 ),
               ),
             ),
-            body: TabBarView(
-              children: [
-                TabPage_TeamList(),
-                TabPage_MatchList(),
-                TabPage_League(),
-                TabPage_Data()
-              ],
-            )));
+            body: TabBarView(children: [
+              TabPage_TeamList(),
+              TabPage_MatchList(),
+              TabPage_League(),
+              TabPage_Data()
+            ])));
   }
 }
 
 class TabPage_TeamList extends ConsumerWidget {
+  // チームリスト一覧用
+  var _elements = [
+    {'name': '東北楽天ゴールデンイーグルス', 'group': 'チーム名'},
+    {'name': '西武ライオンズ', 'group': 'チーム名'},
+    {'name': '阪神タイガース', 'group': 'チーム名'},
+    {'name': '横浜DeNAベイスターズ', 'group': 'チーム名'},
+  ];
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
+    final textFieldLeagueAllTeam = watch(textFieldLeagueAllTeamProvider);
+
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Text('Team List'),
-        ),
+        child: _teamList(),
+        // child: ListView.builder(
+        //   itemCount: int.parse(textFieldLeagueAllTeam.state),
+        //   padding: EdgeInsets.all(10),
+        //   itemBuilder: (BuildContext context, int index) {
+        //     return Card(
+        //       child: ListTile(
+        //         title: Text(
+        //           ' チームNo.${index + 1}',
+        //         ),
+        //         trailing: Icon(Icons.keyboard_arrow_right),
+        //         shape: RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.circular(10),
+        //             side: BorderSide(color: Colors.grey)),
+        //         contentPadding: EdgeInsets.all(10),
+        //         onTap: () {},
+        //       ),
+        //     );
+        //   },
+        // ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
+  }
+
+  _teamList() {
+    var matchListView = GroupedListView<dynamic, String>(
+      elements: _elements,
+      groupBy: (element) => element['group'],
+      groupComparator: (value1, value2) => value2.compareTo(value1),
+      itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']),
+      order: GroupedListOrder.ASC,
+      useStickyGroupSeparators: true,
+      groupSeparatorBuilder: (String value) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          value,
+          // textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+      ),
+      itemBuilder: (c, element) {
+        return Card(
+          elevation: 8.0,
+          margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          child: Container(
+            child: ListTile(
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              leading: Icon(Icons.account_circle),
+              title: Text(
+                '${element['name']}',
+                style: TextStyle(fontSize: 17),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+          ),
+        );
+      },
+    );
+
+    return matchListView;
   }
 }
 
 class TabPage_MatchList extends ConsumerWidget {
+  // 試合一覧リストビュー用
+  var _elements = [
+    {'name': '西武ライオンズ', 'group': '1回戦'},
+    {'name': '東北楽天ゴールデンイーグルス', 'group': '1回戦'},
+    {'name': 'Beth', 'group': '1回戦'},
+    {'name': 'Miranda', 'group': '2回戦'},
+    {'name': 'Mike', 'group': '2回戦'},
+    {'name': 'Danny', 'group': '2回戦'},
+    {'name': 'Miranda', 'group': '2回戦'},
+    {'name': 'Mike', 'group': '2回戦'},
+    {'name': 'Danny', 'group': '2回戦'},
+    {'name': 'Mike', 'group': '3回戦'},
+    {'name': 'Danny', 'group': '3回戦'},
+    {'name': 'Mike', 'group': '3回戦'},
+    {'name': 'Danny', 'group': '3回戦'},
+  ];
+
+  // final date = DateTime.now();
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Text('Match List'),
-        ),
+        child: _matchList(),
       ),
     );
+  }
+
+  _matchList() {
+    var matchListView = GroupedListView<dynamic, String>(
+      elements: _elements,
+      groupBy: (element) => element['group'],
+      groupComparator: (value1, value2) => value2.compareTo(value1),
+      itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']),
+      order: GroupedListOrder.DESC,
+      useStickyGroupSeparators: true,
+      groupSeparatorBuilder: (String value) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          value,
+          // textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+      ),
+      itemBuilder: (c, element) {
+        return Card(
+          elevation: 8.0,
+          margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          child: Container(
+            child: ListTile(
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              // leading: Text(DateFormat.yMMMd('ja').format(date)),
+              // leading: Text(sentDateFormatted),
+              title: Text(
+                  '$sentDateFormatted \n${element['name']} VS ${element['name']}'),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+          ),
+        );
+      },
+    );
+
+    return matchListView;
   }
 }
 
