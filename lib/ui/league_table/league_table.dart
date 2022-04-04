@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:league_tournament_app/const/functions.dart';
 
-import 'match_settings.dart';
+import '../match_seettings/match_settings.dart';
 
 class LeagueTable extends ConsumerWidget {
   @override
@@ -65,7 +63,7 @@ class TabPage_TeamList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final textFieldLeagueAllTeam = watch(textFieldLeagueAllTeamProvider);
+    // final textFieldLeagueAllTeam = watch(textFieldLeagueAllTeamProvider);
 
     return Scaffold(
       body: SafeArea(

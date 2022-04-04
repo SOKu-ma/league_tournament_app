@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:league_tournament_app/ui/home_base.dart';
+import 'package:league_tournament_app/ui/home_base/home_base.dart';
 
 // final appNameProvider = Provider((ref) => 'RiverPod Sample');
 final selectedIndexProvider = StateProvider((ref) => 0);

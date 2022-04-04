@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:league_tournament_app/ui/tournament_table.dart';
-import 'league_table.dart';
+import 'package:league_tournament_app/ui/tournament_table/tournament_table.dart';
+import '../league_table/league_table.dart';
 
 // リーグ戦 or トーナメント戦選択用
 final selectionsToggleLeagueProvider = StateProvider((ref) => true);
