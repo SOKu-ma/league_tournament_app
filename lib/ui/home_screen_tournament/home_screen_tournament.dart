@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:league_tournament_app/const/functions.dart';
 
-import 'match_settings.dart';
+import '../match_seettings/match_settings.dart';
 
 class HomeScreenTournament extends ConsumerWidget {
   final _elements = [

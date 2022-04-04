@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'package:league_tournament_app/const/functions.dart';
-import 'package:league_tournament_app/ui/tournament_table.dart';
-import 'league_table.dart';
+import 'package:league_tournament_app/ui/league_table/league_table.dart';
 
 class HomeScreenLeague extends ConsumerWidget {
   // final leagueList = ['セ・リーグ', 'パ・リーグ', 'MLB'];

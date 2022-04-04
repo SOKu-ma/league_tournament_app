@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'drawer_menu.dart';
-import 'home_screen_league.dart';
-import 'home_screen_tournament.dart';
-import 'match_settings.dart';
+import 'package:league_tournament_app/ui/drawer_menu/drawer_menu.dart';
+import 'package:league_tournament_app/ui/home_screen_league/home_screen_league.dart';
+import 'package:league_tournament_app/ui/home_screen_tournament/home_screen_tournament.dart';
+import 'package:league_tournament_app/ui/match_seettings/match_settings.dart';
 
 // final appNameProvider = Provider((ref) => 'RiverPod Sample');
 final selectedIndexProvider = StateProvider((ref) => 0);
